@@ -6,7 +6,7 @@ HTML = """
 <!DOCTYPE html>
 <html>
 <head>
-<title>Happy Birthday Babby ❤️</title>
+<title>Happy Birthday Dumbo ❤️</title>
 
 <style>
 body {
@@ -15,6 +15,7 @@ body {
     text-align: center;
     color: white;
     margin: 0;
+    overflow-x: hidden;
 }
 
 h1 { font-size: 50px; margin-top: 30px; }
@@ -47,13 +48,13 @@ button {
     50% { transform: scale(1.3); }
 }
 
-#letter, #content {
+#letter {
     display: none;
     font-size: 24px;
     margin-top: 20px;
 }
 
-/* Fireworks */
+/* FIREWORKS */
 .firework {
     position: fixed;
     width: 6px;
@@ -64,40 +65,44 @@ button {
 }
 
 @keyframes explode {
-    100% { transform: scale(25); opacity: 0; }
+    to { transform: scale(25); opacity: 0; }
+}
+
+/* CONFETTI */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(100vh) rotate(360deg); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD SCREEN -->
-<div id="lock">
-    <h1>🔒 Enter Password</h1>
-    <input type="password" id="pass" placeholder="Enter password">
-    <br><br>
-    <button onclick="unlock()">Unlock ❤️</button>
-    <p id="error"></p>
-</div>
-
-<!-- MAIN CONTENT -->
-<div id="content">
-
+<!-- MUSIC -->
 <audio autoplay loop controls>
 <source src="/static/song.mp3" type="audio/mpeg">
 </audio>
 
-<h1>🎉 Happy Birthday Babby 🎉</h1>
+<h1>🎉 Happy Birthday Laatu 🎉</h1>
 <div class="heart">❤️</div>
 
-<p>25 December — The most special day of my life 💕</p>
+<p>25 December — The most beautiful soul was born 💕</p>
 
 <h2 id="countdown"></h2>
 
 <button onclick="showLetter()">💌 Open Love Letter</button>
 
 <div id="letter">
-Babby, loving you is the best thing that ever happened to me.  
+You make everything easy for me, thank you for being my best friend,  
+my best guider and my soulmate ❤️  
+I am so grateful to have you in my life 💕
+loving you is the best thing that ever happened to me.  
 You are my today, my tomorrow, and my forever ❤️
 </div>
 
@@ -110,31 +115,21 @@ You are my today, my tomorrow, and my forever ❤️
 
 <h2 id="midnight"></h2>
 
-</div>
-
 <script>
-const PASSWORD = "babby25";
 const birthday = new Date("December 25, 2025 00:00:00").getTime();
 
-// Unlock logic
-function unlock() {
-    if (document.getElementById("pass").value === PASSWORD) {
-        document.getElementById("lock").style.display = "none";
-        document.getElementById("content").style.display = "block";
-    } else {
-        document.getElementById("error").innerText = "Wrong password 💔";
-    }
-}
-
-// Countdown + Midnight surprise
+// COUNTDOWN + MIDNIGHT SURPRISE
 setInterval(() => {
     const now = new Date().getTime();
     const diff = birthday - now;
 
     if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "🎂 It's Your Birthday Babby 🎂";
+        document.getElementById("countdown").innerHTML =
+            "🎂 It's Your Birthday Jaanuuuu 🎂";
         document.getElementById("midnight").innerHTML =
-            "🌙 Midnight Surprise 💕 I Love You More Than Words ❤️";
+            "✨ Happy Birthday My Love 💕 You are my forever ❤️";
+        launchFireworks();
+        launchConfetti();
     } else {
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -146,20 +141,35 @@ setInterval(() => {
     }
 }, 1000);
 
-// Love letter
+// LOVE LETTER
 function showLetter() {
     document.getElementById("letter").style.display = "block";
 }
 
-// Fireworks
-setInterval(() => {
-    const f = document.createElement("div");
-    f.className = "firework";
-    f.style.left = Math.random() * window.innerWidth + "px";
-    f.style.top = Math.random() * window.innerHeight + "px";
-    document.body.appendChild(f);
-    setTimeout(() => f.remove(), 1000);
-}, 600);
+// FIREWORKS
+function launchFireworks() {
+    setInterval(() => {
+        const f = document.createElement("div");
+        f.className = "firework";
+        f.style.left = Math.random() * window.innerWidth + "px";
+        f.style.top = Math.random() * window.innerHeight + "px";
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 1000);
+    }, 300);
+}
+
+// CONFETTI
+function launchConfetti() {
+    for (let i = 0; i < 200; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * window.innerWidth + "px";
+        c.style.background = "hsl(" + Math.random() * 360 + ",100%,50%)";
+        c.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 6000);
+    }
+}
 </script>
 
 </body>
