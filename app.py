@@ -6,7 +6,7 @@ HTML = """
 <!DOCTYPE html>
 <html>
 <head>
-<title>Happy Birthday Dumbo ❤️</title>
+<title>Happy Birthday Babby ❤️</title>
 
 <style>
 body {
@@ -84,12 +84,12 @@ button {
 
 <body>
 
-<!-- MUSIC -->
+<!-- 🎶 MUSIC -->
 <audio autoplay loop controls>
 <source src="/static/song.mp3" type="audio/mpeg">
 </audio>
 
-<h1>🎉 Happy Birthday Laatu 🎉</h1>
+<h1>🎉 Happy Birthday Babby 🎉</h1>
 <div class="heart">❤️</div>
 
 <p>25 December — The most beautiful soul was born 💕</p>
@@ -102,8 +102,6 @@ button {
 You make everything easy for me, thank you for being my best friend,  
 my best guider and my soulmate ❤️  
 I am so grateful to have you in my life 💕
-loving you is the best thing that ever happened to me.  
-You are my today, my tomorrow, and my forever ❤️
 </div>
 
 <h2>📸 Our Memories</h2>
@@ -125,7 +123,7 @@ setInterval(() => {
 
     if (diff <= 0) {
         document.getElementById("countdown").innerHTML =
-            "🎂 It's Your Birthday Jaanuuuu 🎂";
+            "🎂 It's Your Birthday Babby 🎂";
         document.getElementById("midnight").innerHTML =
             "✨ Happy Birthday My Love 💕 You are my forever ❤️";
         launchFireworks();
@@ -164,8 +162,10 @@ function launchConfetti() {
         const c = document.createElement("div");
         c.className = "confetti";
         c.style.left = Math.random() * window.innerWidth + "px";
-        c.style.background = "hsl(" + Math.random() * 360 + ",100%,50%)";
-        c.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        c.style.background =
+            "hsl(" + Math.random() * 360 + ",100%,50%)";
+        c.style.animationDuration =
+            (Math.random() * 3 + 2) + "s";
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 6000);
     }
