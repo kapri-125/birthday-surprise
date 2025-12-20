@@ -6,55 +6,86 @@ HTML = """
 <!DOCTYPE html>
 <html>
 <head>
-<title>Happy Birthday Babby ❤️</title>
+<title>Happy Birthday Laatu 💗</title>
 
 <style>
 body {
-    background: linear-gradient(to right, #ff9a9e, #fad0c4);
-    font-family: Arial;
-    text-align: center;
-    color: white;
     margin: 0;
+    font-family: "Georgia", serif;
+    text-align: center;
+    color: #5a0c2c;
+    background:
+        radial-gradient(circle at top left, rgba(255,120,170,0.35), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(255,170,210,0.35), transparent 45%),
+        linear-gradient(135deg, #ffd1e6, #ff9fcf);
     overflow-x: hidden;
 }
 
-h1 { font-size: 50px; margin-top: 30px; }
-p { font-size: 22px; width: 80%; margin: auto; }
+h1 {
+    font-size: 52px;
+    margin-top: 30px;
+    color: #b0004d;
+    text-shadow: 0 0 20px rgba(255,105,180,0.6);
+}
+
+p {
+    font-size: 22px;
+    width: 80%;
+    margin: auto;
+    line-height: 1.6;
+}
 
 button {
-    padding: 15px 30px;
+    padding: 16px 38px;
     font-size: 18px;
-    background: #ff4b5c;
+    background: linear-gradient(135deg, #ff4f9a, #ff8fc7);
     border: none;
-    border-radius: 30px;
+    border-radius: 40px;
     color: white;
     cursor: pointer;
-    margin: 10px;
+    margin: 15px;
+    box-shadow: 0 10px 30px rgba(255,105,180,0.6);
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.gallery {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .gallery img {
     width: 220px;
-    margin: 10px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px white;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(255,105,180,0.6);
 }
 
 .heart {
-    font-size: 80px;
-    animation: beat 1s infinite;
+    font-size: 85px;
+    color: #ff2f92;
+    animation: beat 1.2s infinite;
 }
 
 @keyframes beat {
-    50% { transform: scale(1.3); }
+    50% { transform: scale(1.4); }
 }
 
 #letter {
     display: none;
     font-size: 24px;
-    margin-top: 20px;
+    margin: 30px auto;
+    padding: 30px;
+    width: 80%;
+    background: rgba(255,255,255,0.65);
+    border-radius: 30px;
+    box-shadow: 0 20px 45px rgba(255,105,180,0.5);
 }
 
-/* FIREWORKS */
+/* Fireworks */
 .firework {
     position: fixed;
     width: 6px;
@@ -68,7 +99,7 @@ button {
     to { transform: scale(25); opacity: 0; }
 }
 
-/* CONFETTI */
+/* Confetti */
 .confetti {
     position: fixed;
     width: 10px;
@@ -89,7 +120,7 @@ button {
 <source src="/static/song.mp3" type="audio/mpeg">
 </audio>
 
-<h1>🎉 Happy Birthday Babby 🎉</h1>
+<h1>🎉 Happy Birthday Duggu 🎉</h1>
 <div class="heart">❤️</div>
 
 <p>25 December — The most beautiful soul was born 💕</p>
@@ -102,6 +133,7 @@ button {
 You make everything easy for me, thank you for being my best friend,  
 my best guider and my soulmate ❤️  
 I am so grateful to have you in my life 💕
+Nakh m dum krti h but pyar bhi bhut krti h thank you for everything I Love You So much
 </div>
 
 <h2>📸 Our Memories</h2>
@@ -116,16 +148,15 @@ I am so grateful to have you in my life 💕
 <script>
 const birthday = new Date("December 25, 2025 00:00:00").getTime();
 
-// COUNTDOWN + MIDNIGHT SURPRISE
 setInterval(() => {
     const now = new Date().getTime();
     const diff = birthday - now;
 
     if (diff <= 0) {
         document.getElementById("countdown").innerHTML =
-            "🎂 It's Your Birthday Babby 🎂";
+            "🎂 It's Your Birthday Baby 🎂";
         document.getElementById("midnight").innerHTML =
-            "✨ Happy Birthday My Love 💕 You are my forever ❤️";
+            "💖 Happy Birthday My Love 💖 You are my forever 💕 Moteee";
         launchFireworks();
         launchConfetti();
     } else {
@@ -139,12 +170,10 @@ setInterval(() => {
     }
 }, 1000);
 
-// LOVE LETTER
 function showLetter() {
     document.getElementById("letter").style.display = "block";
 }
 
-// FIREWORKS
 function launchFireworks() {
     setInterval(() => {
         const f = document.createElement("div");
@@ -156,14 +185,13 @@ function launchFireworks() {
     }, 300);
 }
 
-// CONFETTI
 function launchConfetti() {
     for (let i = 0; i < 200; i++) {
         const c = document.createElement("div");
         c.className = "confetti";
         c.style.left = Math.random() * window.innerWidth + "px";
         c.style.background =
-            "hsl(" + Math.random() * 360 + ",100%,50%)";
+            "hsl(" + Math.random() * 360 + ",100%,75%)";
         c.style.animationDuration =
             (Math.random() * 3 + 2) + "s";
         document.body.appendChild(c);
