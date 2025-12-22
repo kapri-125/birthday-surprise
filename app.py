@@ -18,17 +18,9 @@ body {
     overflow-x: hidden;
 }
 
-/* Headings */
-h1 {
-    font-size: 44px;
-    margin-top: 30px;
-    color: #b0004d;
-}
-p {
-    font-size: 20px;
-}
+h1 { font-size: 44px; margin-top: 20px; color: #b0004d; }
+p { font-size: 20px; }
 
-/* Buttons */
 button {
     padding: 15px 35px;
     font-size: 18px;
@@ -38,41 +30,43 @@ button {
     color: white;
     cursor: pointer;
     margin: 10px;
-    transition: transform 0.3s;
-}
-button:hover {
-    transform: scale(1.05);
 }
 
-/* Heart */
 .heart {
     font-size: 80px;
     animation: beat 1s infinite;
 }
-@keyframes beat {
-    50% { transform: scale(1.3); }
+@keyframes beat { 50% { transform: scale(1.3); } }
+
+/* Time */
+#clock {
+    font-size: 22px;
+    margin-top: 10px;
+    color: #8b0038;
 }
 
-/* Letter card */
+/* Timer */
+#timerBox {
+    font-size: 26px;
+    margin-top: 20px;
+}
+
+/* Hidden */
+.hidden { display: none; }
+
+/* Pop animation */
+@keyframes pop {
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 .card {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.9);
     margin: 30px auto;
     padding: 25px;
     width: 85%;
     border-radius: 30px;
-    animation: pop 0.8s ease-out;
-}
-
-/* Pop animation */
-@keyframes pop {
-    from {
-        transform: scale(0.6);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+    animation: pop 0.8s;
 }
 
 /* Slideshow */
@@ -80,10 +74,10 @@ button:hover {
     width: 260px;
     height: 360px;
     margin: 25px auto;
-    position: relative;
     border-radius: 30px;
-    overflow: hidden;
     background: rgba(255,255,255,0.4);
+    overflow: hidden;
+    position: relative;
 }
 .slideshow img {
     max-width: 100%;
@@ -93,9 +87,7 @@ button:hover {
     opacity: 0;
     transition: opacity 1s;
 }
-.slideshow img.active {
-    opacity: 1;
-}
+.slideshow img.active { opacity: 1; }
 
 /* Cake */
 #cake {
@@ -103,9 +95,7 @@ button:hover {
     cursor: pointer;
     animation: bounce 1s infinite;
 }
-@keyframes bounce {
-    50% { transform: scale(1.1); }
-}
+@keyframes bounce { 50% { transform: scale(1.1); } }
 #cakePhoto {
     display: none;
     width: 220px;
@@ -113,7 +103,7 @@ button:hover {
     border-radius: 25px;
 }
 
-/* Mini Game Message */
+/* Love message */
 .love-card {
     margin: 25px auto;
     padding: 20px;
@@ -122,8 +112,7 @@ button:hover {
     border-radius: 25px;
     font-size: 22px;
     color: #b0004d;
-    animation: pop 0.8s ease-out;
-    box-shadow: 0 15px 40px rgba(255,105,180,0.5);
+    animation: pop 0.8s;
 }
 
 /* Confetti */
@@ -136,6 +125,17 @@ button:hover {
 @keyframes fall {
     to { transform: translateY(100vh) rotate(360deg); }
 }
+
+/* Floating hearts */
+.floating-heart {
+    position: fixed;
+    bottom: 0;
+    font-size: 26px;
+    animation: floatUp 4s ease-in forwards;
+}
+@keyframes floatUp {
+    to { transform: translateY(-100vh); opacity: 0; }
+}
 </style>
 </head>
 
@@ -145,8 +145,20 @@ button:hover {
 <div class="heart">❤️</div>
 <p>25 December — The most beautiful soul was born 💕</p>
 
-<audio autoplay loop>
-    <source src="/static/song.mp3" type="audio/mpeg">
+<div id="clock"></div>
+
+<div id="timerBox">
+⏳ Surprise unlocks in <span id="count">10</span> seconds...
+</div>
+
+<div id="content" class="hidden">
+
+<audio id="bgMusic" autoplay loop>
+<source src="/static/song.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="cakeSound">
+<source src="/static/cake.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -173,16 +185,38 @@ Thank you for everything, I Love You So Much 🥺❤️
 <h2>🎮 Mini Game 😍</h2>
 <p>Do you love me forever? 💖</p>
 
-<button id="yesBtn" onclick="yesClicked()">YES 💕</button>
+<button onclick="yesClicked()">YES 💕</button>
 <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
 
-<div id="loveMessage" style="display:none;" class="love-card">
+<div id="loveMessage" class="love-card hidden">
 💖 Mujhe toh pata hi tha 😘  
 <br> Tum meri hi ho ❤️  
 <br> I Love You Forever 💕
 </div>
 
+</div>
+
 <script>
+/* Live Clock */
+setInterval(() => {
+    const now = new Date();
+    document.getElementById("clock").innerText =
+        "⏰ Time: " + now.toLocaleTimeString();
+}, 1000);
+
+/* Timer */
+let time = 10;
+const t = setInterval(() => {
+    time--;
+    document.getElementById("count").innerText = time;
+    if (time === 0) {
+        clearInterval(t);
+        document.getElementById("timerBox").style.display = "none";
+        document.getElementById("content").classList.remove("hidden");
+        launchConfetti();
+    }
+}, 1000);
+
 /* Slideshow */
 let slides = document.querySelectorAll(".slideshow img");
 let index = 0;
@@ -196,10 +230,11 @@ setInterval(() => {
 function cutCake() {
     document.getElementById("cake").innerText = "🍰";
     document.getElementById("cakePhoto").style.display = "block";
+    document.getElementById("cakeSound").play();
     launchConfetti();
 }
 
-/* Mini Game */
+/* Mini game */
 let noCount = 0;
 function moveNo() {
     noCount++;
@@ -213,13 +248,14 @@ function moveNo() {
 }
 
 function yesClicked() {
-    document.getElementById("loveMessage").style.display = "block";
+    document.getElementById("loveMessage").classList.remove("hidden");
     launchConfetti();
+    launchHearts();
 }
 
 /* Confetti */
 function launchConfetti() {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 80; i++) {
         const c = document.createElement("div");
         c.className = "confetti";
         c.style.left = Math.random()*window.innerWidth + "px";
@@ -227,6 +263,18 @@ function launchConfetti() {
         c.style.animationDuration = Math.random()*3 + 2 + "s";
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 5000);
+    }
+}
+
+/* Floating hearts */
+function launchHearts() {
+    for (let i = 0; i < 20; i++) {
+        const h = document.createElement("div");
+        h.className = "floating-heart";
+        h.innerText = "❤️";
+        h.style.left = Math.random()*window.innerWidth + "px";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 4000);
     }
 }
 </script>
