@@ -59,7 +59,7 @@ body {
 
 /* Banner */
 #banner {
-    font-size: 42px;
+    font-size: 40px;
     margin: 20px;
     color: #b0004d;
     animation: glow 1.5s infinite alternate;
@@ -72,23 +72,26 @@ body {
 /* Card */
 .card {
     background: rgba(255,255,255,0.75);
-    margin: 30px auto;
+    margin: 25px auto;
     padding: 25px;
-    width: 80%;
-    border-radius: 30px;
+    width: 85%;
+    border-radius: 25px;
 }
 
 /* Slideshow */
 .slideshow {
-    width: 260px;
-    height: 260px;
+    width: 240px;
+    height: 240px;
     margin: 20px auto;
     position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(255,105,180,0.4);
 }
 .slideshow img {
     width: 100%;
     height: 100%;
-    border-radius: 25px;
+    object-fit: cover;
     position: absolute;
     opacity: 0;
     transition: opacity 1s ease-in-out;
@@ -106,7 +109,6 @@ body {
 @keyframes bounce {
     50% { transform: scale(1.1); }
 }
-
 #cakePhoto {
     width: 220px;
     margin: 20px auto;
@@ -183,7 +185,7 @@ Thank you for everything, I Love You So Much 🥺❤️
 </p>
 </div>
 
-<h2>🖼️ Our Memories</h2>
+<h2>📸 Our Memories</h2>
 <div class="slideshow">
 <img src="/static/photo1.jpg" class="active">
 <img src="/static/photo2.jpg">
@@ -251,7 +253,6 @@ function moveNo() {
         btn.onclick = yesClicked;
     }
 }
-
 function yesClicked() {
     if (navigator.vibrate) {
         navigator.vibrate([200,100,200]);
