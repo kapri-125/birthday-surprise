@@ -68,10 +68,10 @@ button {
 
 /* SLIDESHOW (UNCHANGED – PHOTO SAFE) */
 .slideshow {
-    width: 230px;
-    height: 360px;
+    width: 260px;         
+    height: 420px;        
     margin: 25px auto;
-    border-radius: 35px;
+    border-radius: 40px;
     overflow: hidden;
     position: relative;
 }
@@ -79,11 +79,12 @@ button {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 40% center;
+    object-position: center;
     position: absolute;
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
+
 .slideshow img.active { opacity: 1; }
 
 /* Cake */
@@ -270,6 +271,7 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
