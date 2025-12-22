@@ -77,12 +77,13 @@ button {
     position: relative;
 }
 .slideshow img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     position: absolute;
     opacity: 0;
-    transition: opacity 1s;
+    transition: opacity 1s ease-in-out;
 }
 .slideshow img.active { opacity: 1; }
 
@@ -270,3 +271,4 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
