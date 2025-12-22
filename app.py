@@ -47,6 +47,7 @@ LETTER = """
 <html>
 <head>
 <title>Love Letter 💌</title>
+
 <style>
 body {
     font-family: Georgia;
@@ -59,7 +60,7 @@ body {
 
 /* Banner */
 #banner {
-    font-size: 40px;
+    font-size: 42px;
     margin: 20px;
     color: #b0004d;
     animation: glow 1.5s infinite alternate;
@@ -75,23 +76,27 @@ body {
     margin: 25px auto;
     padding: 25px;
     width: 85%;
-    border-radius: 25px;
+    border-radius: 30px;
 }
 
-/* Slideshow */
+/* SLIDESHOW (PORTRAIT SAFE) */
 .slideshow {
-    width: 240px;
-    height: 240px;
-    margin: 20px auto;
+    width: 260px;
+    height: 360px;
+    margin: 25px auto;
     position: relative;
-    border-radius: 25px;
+    border-radius: 30px;
     overflow: hidden;
-    box-shadow: 0 15px 35px rgba(255,105,180,0.4);
+    background: rgba(255,255,255,0.35);
+    box-shadow: 0 20px 40px rgba(255,105,180,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .slideshow img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
     position: absolute;
     opacity: 0;
     transition: opacity 1s ease-in-out;
@@ -115,6 +120,19 @@ body {
     display: none;
     border-radius: 25px;
     box-shadow: 0 0 30px rgba(255,105,180,0.6);
+}
+
+/* Buttons */
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background: #ff4f9a;
+    border: none;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+    margin: 10px;
+    position: relative;
 }
 
 /* Effects */
@@ -146,19 +164,6 @@ body {
 }
 @keyframes floatUp {
     to { transform: translateY(-120vh); }
-}
-
-/* Buttons */
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background: #ff4f9a;
-    border: none;
-    border-radius: 40px;
-    color: white;
-    cursor: pointer;
-    margin: 10px;
-    position: relative;
 }
 </style>
 </head>
@@ -210,7 +215,7 @@ Thank you for everything, I Love You So Much 🥺❤️
 let countdown = 5;
 let noCount = 0;
 
-/* Unlock timer */
+/* Unlock */
 const timer = setInterval(() => {
     countdown--;
     document.getElementById("count").innerText = countdown;
