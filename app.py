@@ -18,11 +18,69 @@ body {
     overflow-x: hidden;
 }
 
-h1 { font-size: 44px; margin-top: 20px; color: #b0004d; }
+h1 { font-size: 44px; color: #b0004d; margin-top: 20px; }
 p { font-size: 20px; }
 
+/* Timer */
+#timerBox { font-size: 26px; margin: 20px; }
+
+/* Hidden */
+.hidden { display: none; }
+
+/* Card */
+.card {
+    background: rgba(255,255,255,0.9);
+    margin: 25px auto;
+    padding: 25px;
+    width: 85%;
+    border-radius: 30px;
+    animation: pop 0.8s;
+}
+@keyframes pop {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* SLIDESHOW FIXED */
+.slideshow {
+    width: 230px;
+    height: 360px;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+}
+.slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.slideshow img.active { opacity: 1; }
+
+/* Cake */
+#cake {
+    font-size: 90px;
+    cursor: pointer;
+}
+#cakePhoto {
+    display: none;
+    width: 220px;
+    margin: 20px auto;
+    border-radius: 25px;
+}
+
+/* GAME AREA */
+#gameArea {
+    position: relative;
+    height: 200px;
+}
+
+/* Buttons */
 button {
-    padding: 15px 35px;
+    padding: 15px 30px;
     font-size: 18px;
     background: #ff4f9a;
     border: none;
@@ -32,86 +90,19 @@ button {
     margin: 10px;
 }
 
-.heart {
-    font-size: 80px;
-    animation: beat 1s infinite;
-}
-@keyframes beat { 50% { transform: scale(1.3); } }
-
-/* Time */
-#clock {
-    font-size: 22px;
-    margin-top: 10px;
-    color: #8b0038;
-}
-
-/* Timer */
-#timerBox {
-    font-size: 26px;
-    margin-top: 20px;
-}
-
-/* Hidden */
-.hidden { display: none; }
-
-/* Pop animation */
-@keyframes pop {
-    from { transform: scale(0.6); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-.card {
-    background: rgba(255,255,255,0.9);
-    margin: 30px auto;
-    padding: 25px;
-    width: 85%;
-    border-radius: 30px;
-    animation: pop 0.8s;
-}
-
-/* Slideshow */
-.slideshow {
-    width: 260px;
-    height: 360px;
-    margin: 25px auto;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.4);
-    overflow: hidden;
-    position: relative;
-}
-.slideshow img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+/* NO button */
+#noBtn {
     position: absolute;
-    opacity: 0;
-    transition: opacity 1s;
-}
-.slideshow img.active { opacity: 1; }
-
-/* Cake */
-#cake {
-    font-size: 90px;
-    cursor: pointer;
-    animation: bounce 1s infinite;
-}
-@keyframes bounce { 50% { transform: scale(1.1); } }
-#cakePhoto {
-    display: none;
-    width: 220px;
-    margin: 20px auto;
-    border-radius: 25px;
 }
 
-/* Love message */
+/* Love Message */
 .love-card {
-    margin: 25px auto;
+    margin: 20px auto;
     padding: 20px;
     width: 80%;
     background: rgba(255,255,255,0.9);
     border-radius: 25px;
     font-size: 22px;
-    color: #b0004d;
     animation: pop 0.8s;
 }
 
@@ -125,40 +116,20 @@ button {
 @keyframes fall {
     to { transform: translateY(100vh) rotate(360deg); }
 }
-
-/* Floating hearts */
-.floating-heart {
-    position: fixed;
-    bottom: 0;
-    font-size: 26px;
-    animation: floatUp 4s ease-in forwards;
-}
-@keyframes floatUp {
-    to { transform: translateY(-100vh); opacity: 0; }
-}
 </style>
 </head>
 
 <body>
 
 <h1>🎉 Happy Birthday Duggu 🎉</h1>
-<div class="heart">❤️</div>
 <p>25 December — The most beautiful soul was born 💕</p>
 
-<div id="clock"></div>
-
-<div id="timerBox">
-⏳ Surprise unlocks in <span id="count">10</span> seconds...
-</div>
+<div id="timerBox">⏳ Unlocking in <span id="count">10</span> seconds...</div>
 
 <div id="content" class="hidden">
 
-<audio id="bgMusic" autoplay loop>
+<audio autoplay loop>
 <source src="/static/song.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="cakeSound">
-<source src="/static/cake.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -183,10 +154,12 @@ Thank you for everything, I Love You So Much 🥺❤️
 <img id="cakePhoto" src="/static/cake_photo.jpg">
 
 <h2>🎮 Mini Game 😍</h2>
-<p>Do you love me forever? 💖</p>
+<p>Will You Marry me..? 💖</p>
 
+<div id="gameArea">
 <button onclick="yesClicked()">YES 💕</button>
 <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
+</div>
 
 <div id="loveMessage" class="love-card hidden">
 💖 Mujhe toh pata hi tha 😘  
@@ -197,13 +170,6 @@ Thank you for everything, I Love You So Much 🥺❤️
 </div>
 
 <script>
-/* Live Clock */
-setInterval(() => {
-    const now = new Date();
-    document.getElementById("clock").innerText =
-        "⏰ Time: " + now.toLocaleTimeString();
-}, 1000);
-
 /* Timer */
 let time = 10;
 const t = setInterval(() => {
@@ -213,7 +179,6 @@ const t = setInterval(() => {
         clearInterval(t);
         document.getElementById("timerBox").style.display = "none";
         document.getElementById("content").classList.remove("hidden");
-        launchConfetti();
     }
 }, 1000);
 
@@ -230,27 +195,27 @@ setInterval(() => {
 function cutCake() {
     document.getElementById("cake").innerText = "🍰";
     document.getElementById("cakePhoto").style.display = "block";
-    document.getElementById("cakeSound").play();
     launchConfetti();
 }
 
-/* Mini game */
+/* MINI GAME FIXED */
 let noCount = 0;
 function moveNo() {
     noCount++;
     const btn = document.getElementById("noBtn");
-    btn.style.left = Math.random()*200 - 100 + "px";
-    btn.style.top = Math.random()*200 - 100 + "px";
-    if (noCount > 2) {
+    btn.style.left = Math.random() * 180 + "px";
+    btn.style.top = Math.random() * 120 + "px";
+
+    if (noCount >= 6) {
         btn.innerText = "YES 💕";
         btn.onclick = yesClicked;
+        btn.onmouseover = null;
     }
 }
 
 function yesClicked() {
     document.getElementById("loveMessage").classList.remove("hidden");
     launchConfetti();
-    launchHearts();
 }
 
 /* Confetti */
@@ -263,18 +228,6 @@ function launchConfetti() {
         c.style.animationDuration = Math.random()*3 + 2 + "s";
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 5000);
-    }
-}
-
-/* Floating hearts */
-function launchHearts() {
-    for (let i = 0; i < 20; i++) {
-        const h = document.createElement("div");
-        h.className = "floating-heart";
-        h.innerText = "❤️";
-        h.style.left = Math.random()*window.innerWidth + "px";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 4000);
     }
 }
 </script>
