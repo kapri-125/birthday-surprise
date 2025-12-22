@@ -68,15 +68,6 @@ button {
 
 /* SLIDESHOW (UNCHANGED – PHOTO SAFE) */
 .slideshow {
-    width: 260px;
-    height: 360px;
-    margin: 25px auto;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.4);
-    overflow: hidden;
-    position: relative;
-}
-.slideshow {
     width: 230px;
     height: 360px;
     margin: 25px auto;
@@ -84,6 +75,16 @@ button {
     overflow: hidden;
     position: relative;
 }
+.slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
 
 .slideshow img.active { opacity: 1; }
 
@@ -271,5 +272,6 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
