@@ -80,7 +80,7 @@ button {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    position: centre ;
+    position: absolute ;
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
@@ -207,14 +207,21 @@ const t = setInterval(() => {
     }
 }, 1000);
 
-/* SLIDESHOW */
-let slides = document.querySelectorAll(".slideshow img");
-let index = 0;
-setInterval(() => {
-    slides[index].classList.remove("active");
-    index = (index + 1) % slides.length;
-    slides[index].classList.add("active");
-}, 3000);
+let slideshowInterval;
+
+function startSlideshow() {
+    const slides = document.querySelectorAll(".slideshow img");
+    let index = 0;
+
+    if (slides.length > 1) {
+        slideshowInterval = setInterval(() => {
+            slides[index].classList.remove("active");
+            index = (index + 1) % slides.length;
+            slides[index].classList.add("active");
+        }, 3000);
+    }
+}
+
 
 /* CAKE */
 function cutCake() {
@@ -271,6 +278,7 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
