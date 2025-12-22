@@ -70,7 +70,7 @@ button {
 .slideshow {
     width: 260px;         
     height: 420px;        
-    margin: 23px ;
+    margin: 25px auto ;
     border-radius: 40px;
     overflow: hidden;
     position: relative;
@@ -80,7 +80,7 @@ button {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    position: absolute;
+    position: centre ;
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
@@ -271,6 +271,7 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
