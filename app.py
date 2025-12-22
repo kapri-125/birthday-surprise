@@ -18,45 +18,71 @@ body {
     overflow-x: hidden;
 }
 
-h1 { font-size: 44px; color: #b0004d; margin-top: 20px; }
+h1 {
+    font-size: 44px;
+    margin-top: 30px;
+    color: #b0004d;
+}
+
 p { font-size: 20px; }
 
-/* Timer */
-#timerBox { font-size: 26px; margin: 20px; }
+button {
+    padding: 15px 35px;
+    font-size: 18px;
+    background: #ff4f9a;
+    border: none;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+    margin: 10px;
+}
 
-/* Hidden */
+.heart {
+    font-size: 80px;
+    animation: beat 1s infinite;
+}
+@keyframes beat { 50% { transform: scale(1.3); } }
+
+#timerBox {
+    font-size: 26px;
+    margin-top: 30px;
+    animation: pop 1s;
+}
+
 .hidden { display: none; }
 
-/* Card */
-.card {
-    background: rgba(255,255,255,0.9);
-    margin: 25px auto;
-    padding: 25px;
-    width: 85%;
-    border-radius: 30px;
-    animation: pop 0.8s;
-}
+/* POP animation */
 @keyframes pop {
-    from { transform: scale(0.7); opacity: 0; }
+    from { transform: scale(0.6); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
-/* SLIDESHOW FIXED */
+.card {
+    background: rgba(255,255,255,0.85);
+    margin: 30px auto;
+    padding: 25px;
+    width: 85%;
+    border-radius: 30px;
+    animation: pop 1s;
+}
+
+/* SLIDESHOW (UNCHANGED – PHOTO SAFE) */
 .slideshow {
-    width: 230px;
+    width: 260px;
     height: 360px;
-    margin: 20px auto;
-    position: relative;
+    margin: 25px auto;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.4);
     overflow: hidden;
-    border-radius: 25px;
+    position: relative;
 }
 .slideshow img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
     position: absolute;
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1s;
 }
 .slideshow img.active { opacity: 1; }
 
@@ -64,7 +90,10 @@ p { font-size: 20px; }
 #cake {
     font-size: 90px;
     cursor: pointer;
+    animation: bounce 1s infinite;
 }
+@keyframes bounce { 50% { transform: scale(1.1); } }
+
 #cakePhoto {
     display: none;
     width: 220px;
@@ -75,35 +104,26 @@ p { font-size: 20px; }
 /* GAME AREA */
 #gameArea {
     position: relative;
-    height: 200px;
+    height: 180px;
 }
 
-/* Buttons */
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background: #ff4f9a;
-    border: none;
-    border-radius: 40px;
-    color: white;
-    cursor: pointer;
-    margin: 10px;
-}
-
-/* NO button */
-#noBtn {
-    position: absolute;
-}
-
-/* Love Message */
+/* Love message POP-OUT */
 .love-card {
-    margin: 20px auto;
-    padding: 20px;
-    width: 80%;
-    background: rgba(255,255,255,0.9);
-    border-radius: 25px;
+    margin: 25px auto;
+    padding: 22px;
+    width: 82%;
+    background: rgba(255,255,255,0.95);
+    border-radius: 28px;
     font-size: 22px;
-    animation: pop 0.8s;
+    color: #b0004d;
+    box-shadow: 0 18px 45px rgba(255,105,180,0.55);
+    transform: scale(0.6);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+.love-card.show {
+    transform: scale(1);
+    opacity: 1;
 }
 
 /* Confetti */
@@ -122,9 +142,12 @@ button {
 <body>
 
 <h1>🎉 Happy Birthday Duggu 🎉</h1>
+<div class="heart">❤️</div>
 <p>25 December — The most beautiful soul was born 💕</p>
 
-<div id="timerBox">⏳ Unlocking in <span id="count">10</span> seconds...</div>
+<div id="timerBox">
+⏳ Surprise unlocks in <span id="count">10</span> seconds...
+</div>
 
 <div id="content" class="hidden">
 
@@ -154,7 +177,7 @@ Thank you for everything, I Love You So Much 🥺❤️
 <img id="cakePhoto" src="/static/cake_photo.jpg">
 
 <h2>🎮 Mini Game 😍</h2>
-<p>Will You Marry me..? 💖</p>
+<p>Do you love me forever? 💖</p>
 
 <div id="gameArea">
 <button onclick="yesClicked()">YES 💕</button>
@@ -170,7 +193,7 @@ Thank you for everything, I Love You So Much 🥺❤️
 </div>
 
 <script>
-/* Timer */
+/* TIMER */
 let time = 10;
 const t = setInterval(() => {
     time--;
@@ -179,10 +202,11 @@ const t = setInterval(() => {
         clearInterval(t);
         document.getElementById("timerBox").style.display = "none";
         document.getElementById("content").classList.remove("hidden");
+        launchConfetti();
     }
 }, 1000);
 
-/* Slideshow */
+/* SLIDESHOW */
 let slides = document.querySelectorAll(".slideshow img");
 let index = 0;
 setInterval(() => {
@@ -191,20 +215,21 @@ setInterval(() => {
     slides[index].classList.add("active");
 }, 3000);
 
-/* Cake */
+/* CAKE */
 function cutCake() {
     document.getElementById("cake").innerText = "🍰";
     document.getElementById("cakePhoto").style.display = "block";
     launchConfetti();
 }
 
-/* MINI GAME FIXED */
+/* MINI GAME – NO runs 6 times */
 let noCount = 0;
 function moveNo() {
     noCount++;
     const btn = document.getElementById("noBtn");
-    btn.style.left = Math.random() * 180 + "px";
-    btn.style.top = Math.random() * 120 + "px";
+    btn.style.position = "relative";
+    btn.style.left = Math.random()*180 - 90 + "px";
+    btn.style.top = Math.random()*120 - 60 + "px";
 
     if (noCount >= 6) {
         btn.innerText = "YES 💕";
@@ -213,14 +238,17 @@ function moveNo() {
     }
 }
 
+/* YES CLICK */
 function yesClicked() {
-    document.getElementById("loveMessage").classList.remove("hidden");
+    const msg = document.getElementById("loveMessage");
+    msg.classList.remove("hidden");
+    setTimeout(() => msg.classList.add("show"), 50);
     launchConfetti();
 }
 
-/* Confetti */
+/* CONFETTI */
 function launchConfetti() {
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 100; i++) {
         const c = document.createElement("div");
         c.className = "confetti";
         c.style.left = Math.random()*window.innerWidth + "px";
