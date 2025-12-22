@@ -76,15 +76,15 @@ button {
     overflow: hidden;
     position: relative;
 }
-.slideshow img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    position: absolute;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+.slideshow {
+    width: 230px;
+    height: 360px;
+    margin: 25px auto;
+    border-radius: 35px;
+    overflow: hidden;
+    position: relative;
 }
+
 .slideshow img.active { opacity: 1; }
 
 /* Cake */
@@ -178,7 +178,7 @@ Thank you for everything, I Love You So Much 🥺❤️
 <img id="cakePhoto" src="/static/cake_photo.jpg">
 
 <h2>🎮 Mini Game 😍</h2>
-<p>Do you love me forever? 💖</p>
+<p>Will you marry me ? 💖</p>
 
 <div id="gameArea">
 <button onclick="yesClicked()">YES 💕</button>
@@ -271,4 +271,5 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
