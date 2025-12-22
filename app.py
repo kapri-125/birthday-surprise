@@ -2,18 +2,33 @@ from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-HOME = """
+HTML = """
 <!DOCTYPE html>
 <html>
 <head>
-<title>Happy Birthday Laatu 💗</title>
+<title>Happy Birthday Duggu 💗</title>
+
 <style>
 body {
-    font-family: Georgia;
+    margin: 0;
+    font-family: Georgia, serif;
     background: linear-gradient(135deg, #ffd1e6, #ff9fcf);
     text-align: center;
     color: #5a0c2c;
+    overflow-x: hidden;
 }
+
+/* Headings */
+h1 {
+    font-size: 44px;
+    margin-top: 30px;
+    color: #b0004d;
+}
+p {
+    font-size: 20px;
+}
+
+/* Buttons */
 button {
     padding: 15px 35px;
     font-size: 18px;
@@ -22,64 +37,45 @@ button {
     border-radius: 40px;
     color: white;
     cursor: pointer;
+    margin: 10px;
+    transition: transform 0.3s;
 }
+button:hover {
+    transform: scale(1.05);
+}
+
+/* Heart */
 .heart {
     font-size: 80px;
     animation: beat 1s infinite;
 }
-@keyframes beat { 50% { transform: scale(1.3); } }
-</style>
-</head>
-<body>
-
-<h1>🎉 Happy Birthday Duggu 🎉</h1>
-<div class="heart">❤️</div>
-<p>25 December — The most beautiful soul was born 💕</p>
-
-<a href="/letter"><button>💌 Open Love Letter</button></a>
-
-</body>
-</html>
-"""
-
-LETTER = """
-<!DOCTYPE html>
-<html>
-<head>
-<title>Love Letter 💌</title>
-
-<style>
-body {
-    font-family: Georgia;
-    background: linear-gradient(135deg, #ff9fcf, #ffd1e6);
-    text-align: center;
-    color: #5a0c2c;
-    overflow-x: hidden;
-}
-.hidden { display: none; }
-
-/* Banner */
-#banner {
-    font-size: 42px;
-    margin: 20px;
-    color: #b0004d;
-    animation: glow 1.5s infinite alternate;
-}
-@keyframes glow {
-    from { text-shadow: 0 0 10px #ff4f9a; }
-    to { text-shadow: 0 0 30px #ff2f92; }
+@keyframes beat {
+    50% { transform: scale(1.3); }
 }
 
-/* Card */
+/* Letter card */
 .card {
-    background: rgba(255,255,255,0.75);
-    margin: 25px auto;
+    background: rgba(255,255,255,0.85);
+    margin: 30px auto;
     padding: 25px;
     width: 85%;
     border-radius: 30px;
+    animation: pop 0.8s ease-out;
 }
 
-/* SLIDESHOW (PORTRAIT SAFE) */
+/* Pop animation */
+@keyframes pop {
+    from {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Slideshow */
 .slideshow {
     width: 260px;
     height: 360px;
@@ -87,11 +83,7 @@ body {
     position: relative;
     border-radius: 30px;
     overflow: hidden;
-    background: rgba(255,255,255,0.35);
-    box-shadow: 0 20px 40px rgba(255,105,180,0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: rgba(255,255,255,0.4);
 }
 .slideshow img {
     max-width: 100%;
@@ -99,7 +91,7 @@ body {
     object-fit: contain;
     position: absolute;
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1s;
 }
 .slideshow img.active {
     opacity: 1;
@@ -115,27 +107,26 @@ body {
     50% { transform: scale(1.1); }
 }
 #cakePhoto {
+    display: none;
     width: 220px;
     margin: 20px auto;
-    display: none;
     border-radius: 25px;
-    box-shadow: 0 0 30px rgba(255,105,180,0.6);
 }
 
-/* Buttons */
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background: #ff4f9a;
-    border: none;
-    border-radius: 40px;
-    color: white;
-    cursor: pointer;
-    margin: 10px;
-    position: relative;
+/* Mini Game Message */
+.love-card {
+    margin: 25px auto;
+    padding: 20px;
+    width: 80%;
+    background: rgba(255,255,255,0.9);
+    border-radius: 25px;
+    font-size: 22px;
+    color: #b0004d;
+    animation: pop 0.8s ease-out;
+    box-shadow: 0 15px 40px rgba(255,105,180,0.5);
 }
 
-/* Effects */
+/* Confetti */
 .confetti {
     position: fixed;
     width: 10px;
@@ -145,39 +136,17 @@ button {
 @keyframes fall {
     to { transform: translateY(100vh) rotate(360deg); }
 }
-.firework {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
-    animation: explode 1s linear;
-}
-@keyframes explode {
-    to { transform: scale(25); opacity: 0; }
-}
-.balloon {
-    position: fixed;
-    bottom: -100px;
-    font-size: 40px;
-    animation: floatUp 6s linear infinite;
-}
-@keyframes floatUp {
-    to { transform: translateY(-120vh); }
-}
 </style>
 </head>
 
 <body>
 
-<h2 id="timer">⏳ Surprise unlocking in <span id="count">5</span> seconds...</h2>
+<h1>🎉 Happy Birthday Duggu 🎉</h1>
+<div class="heart">❤️</div>
+<p>25 December — The most beautiful soul was born 💕</p>
 
-<div id="content" class="hidden">
-
-<h1 id="banner">🎉 Happy Birthday Moteee 💖🎂</h1>
-
-<audio id="music" loop>
-<source src="/static/song.mp3" type="audio/mpeg">
+<audio autoplay loop>
+    <source src="/static/song.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -195,8 +164,6 @@ Thank you for everything, I Love You So Much 🥺❤️
 <img src="/static/photo1.jpg" class="active">
 <img src="/static/photo2.jpg">
 <img src="/static/photo3.jpg">
-<img src="/static/photo4.jpg">
-<img src="/static/photo5.jpg">
 </div>
 
 <h2>🎂 Cut the Cake</h2>
@@ -209,27 +176,13 @@ Thank you for everything, I Love You So Much 🥺❤️
 <button id="yesBtn" onclick="yesClicked()">YES 💕</button>
 <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
 
+<div id="loveMessage" style="display:none;" class="love-card">
+💖 Mujhe toh pata hi tha 😘  
+<br> Tum meri hi ho ❤️  
+<br> I Love You Forever 💕
 </div>
 
 <script>
-let countdown = 5;
-let noCount = 0;
-
-/* Unlock */
-const timer = setInterval(() => {
-    countdown--;
-    document.getElementById("count").innerText = countdown;
-    if (countdown === 0) {
-        clearInterval(timer);
-        document.getElementById("timer").classList.add("hidden");
-        document.getElementById("content").classList.remove("hidden");
-        document.getElementById("music").play();
-        launchConfetti();
-        launchFireworks();
-        launchBalloons();
-    }
-}, 1000);
-
 /* Slideshow */
 let slides = document.querySelectorAll(".slideshow img");
 let index = 0;
@@ -246,28 +199,27 @@ function cutCake() {
     launchConfetti();
 }
 
-/* Game */
+/* Mini Game */
+let noCount = 0;
 function moveNo() {
     noCount++;
     const btn = document.getElementById("noBtn");
-    if (noCount < 6) {
-        btn.style.left = Math.random()*200 - 100 + "px";
-        btn.style.top = Math.random()*200 - 100 + "px";
-    } else {
+    btn.style.left = Math.random()*200 - 100 + "px";
+    btn.style.top = Math.random()*200 - 100 + "px";
+    if (noCount > 2) {
         btn.innerText = "YES 💕";
         btn.onclick = yesClicked;
     }
 }
+
 function yesClicked() {
-    if (navigator.vibrate) {
-        navigator.vibrate([200,100,200]);
-    }
+    document.getElementById("loveMessage").style.display = "block";
     launchConfetti();
 }
 
-/* Effects */
+/* Confetti */
 function launchConfetti() {
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 100; i++) {
         const c = document.createElement("div");
         c.className = "confetti";
         c.style.left = Math.random()*window.innerWidth + "px";
@@ -277,26 +229,6 @@ function launchConfetti() {
         setTimeout(() => c.remove(), 5000);
     }
 }
-function launchFireworks() {
-    setInterval(() => {
-        const f = document.createElement("div");
-        f.className = "firework";
-        f.style.left = Math.random()*window.innerWidth + "px";
-        f.style.top = Math.random()*window.innerHeight + "px";
-        document.body.appendChild(f);
-        setTimeout(() => f.remove(), 1000);
-    }, 400);
-}
-function launchBalloons() {
-    setInterval(() => {
-        const b = document.createElement("div");
-        b.className = "balloon";
-        b.innerText = "🎈";
-        b.style.left = Math.random()*window.innerWidth + "px";
-        document.body.appendChild(b);
-        setTimeout(() => b.remove(), 6000);
-    }, 800);
-}
 </script>
 
 </body>
@@ -305,12 +237,7 @@ function launchBalloons() {
 
 @app.route("/")
 def home():
-    return render_template_string(HOME)
-
-@app.route("/letter")
-def letter():
-    return render_template_string(LETTER)
+    return render_template_string(HTML)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
