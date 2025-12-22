@@ -250,7 +250,7 @@ function cutCake() {
 function moveNo() {
     noCount++;
     const btn = document.getElementById("noBtn");
-    if (noCount < 3) {
+    if (noCount < 6) {
         btn.style.left = Math.random()*200 - 100 + "px";
         btn.style.top = Math.random()*200 - 100 + "px";
     } else {
@@ -313,3 +313,4 @@ def letter():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
