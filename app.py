@@ -70,7 +70,7 @@ button {
 .slideshow {
     width: 260px;         
     height: 420px;        
-    margin: 25px auto;
+    margin: 23px ;
     border-radius: 40px;
     overflow: hidden;
     position: relative;
@@ -271,6 +271,7 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
