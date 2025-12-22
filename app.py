@@ -57,6 +57,7 @@ body {
 }
 .hidden { display: none; }
 
+/* Banner */
 #banner {
     font-size: 42px;
     margin: 20px;
@@ -68,6 +69,7 @@ body {
     to { text-shadow: 0 0 30px #ff2f92; }
 }
 
+/* Card */
 .card {
     background: rgba(255,255,255,0.75);
     margin: 30px auto;
@@ -76,25 +78,44 @@ body {
     border-radius: 30px;
 }
 
-.gallery img {
-    width: 200px;
-    margin: 10px;
-    border-radius: 20px;
-}
-
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background: #ff4f9a;
-    border: none;
-    border-radius: 40px;
-    color: white;
-    cursor: pointer;
-    margin: 10px;
+/* Slideshow */
+.slideshow {
+    width: 260px;
+    height: 260px;
+    margin: 20px auto;
     position: relative;
 }
+.slideshow img {
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.slideshow img.active {
+    opacity: 1;
+}
 
-/* Confetti */
+/* Cake */
+#cake {
+    font-size: 90px;
+    cursor: pointer;
+    animation: bounce 1s infinite;
+}
+@keyframes bounce {
+    50% { transform: scale(1.1); }
+}
+
+#cakePhoto {
+    width: 220px;
+    margin: 20px auto;
+    display: none;
+    border-radius: 25px;
+    box-shadow: 0 0 30px rgba(255,105,180,0.6);
+}
+
+/* Effects */
 .confetti {
     position: fixed;
     width: 10px;
@@ -104,8 +125,6 @@ button {
 @keyframes fall {
     to { transform: translateY(100vh) rotate(360deg); }
 }
-
-/* Fireworks */
 .firework {
     position: fixed;
     width: 6px;
@@ -117,8 +136,6 @@ button {
 @keyframes explode {
     to { transform: scale(25); opacity: 0; }
 }
-
-/* Balloons */
 .balloon {
     position: fixed;
     bottom: -100px;
@@ -129,14 +146,17 @@ button {
     to { transform: translateY(-120vh); }
 }
 
-/* Cake */
-#cake {
-    font-size: 80px;
+/* Buttons */
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background: #ff4f9a;
+    border: none;
+    border-radius: 40px;
+    color: white;
     cursor: pointer;
-    animation: bounce 1s infinite;
-}
-@keyframes bounce {
-    50% { transform: scale(1.1); }
+    margin: 10px;
+    position: relative;
 }
 </style>
 </head>
@@ -163,15 +183,18 @@ Thank you for everything, I Love You So Much 🥺❤️
 </p>
 </div>
 
-<h2>🎂 Cut the Cake</h2>
-<div id="cake" onclick="cutCake()">🎂</div>
-
-<h2>📸 Our Memories</h2>
-<div class="gallery">
-<img src="/static/photo1.jpg">
+<h2>🖼️ Our Memories</h2>
+<div class="slideshow">
+<img src="/static/photo1.jpg" class="active">
 <img src="/static/photo2.jpg">
 <img src="/static/photo3.jpg">
+<img src="/static/photo4.jpg">
+<img src="/static/photo5.jpg">
 </div>
+
+<h2>🎂 Cut the Cake</h2>
+<div id="cake" onclick="cutCake()">🎂</div>
+<img id="cakePhoto" src="/static/cake_photo.jpg">
 
 <h2>🎮 Mini Game 😍</h2>
 <p>Do you love me forever? 💖</p>
@@ -185,6 +208,7 @@ Thank you for everything, I Love You So Much 🥺❤️
 let countdown = 5;
 let noCount = 0;
 
+/* Unlock timer */
 const timer = setInterval(() => {
     countdown--;
     document.getElementById("count").innerText = countdown;
@@ -199,6 +223,23 @@ const timer = setInterval(() => {
     }
 }, 1000);
 
+/* Slideshow */
+let slides = document.querySelectorAll(".slideshow img");
+let index = 0;
+setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+}, 3000);
+
+/* Cake */
+function cutCake() {
+    document.getElementById("cake").innerText = "🍰";
+    document.getElementById("cakePhoto").style.display = "block";
+    launchConfetti();
+}
+
+/* Game */
 function moveNo() {
     noCount++;
     const btn = document.getElementById("noBtn");
@@ -218,11 +259,6 @@ function yesClicked() {
     launchConfetti();
 }
 
-function cutCake() {
-    document.getElementById("cake").innerText = "🍰";
-    launchConfetti();
-}
-
 /* Effects */
 function launchConfetti() {
     for (let i = 0; i < 120; i++) {
@@ -235,7 +271,6 @@ function launchConfetti() {
         setTimeout(() => c.remove(), 5000);
     }
 }
-
 function launchFireworks() {
     setInterval(() => {
         const f = document.createElement("div");
@@ -246,7 +281,6 @@ function launchFireworks() {
         setTimeout(() => f.remove(), 1000);
     }, 400);
 }
-
 function launchBalloons() {
     setInterval(() => {
         const b = document.createElement("div");
