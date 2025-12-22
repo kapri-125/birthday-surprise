@@ -2,7 +2,6 @@ from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-# ================= HOME PAGE =================
 HOME = """
 <!DOCTYPE html>
 <html>
@@ -37,14 +36,12 @@ button {
 <div class="heart">❤️</div>
 <p>25 December — The most beautiful soul was born 💕</p>
 
-<br>
 <a href="/letter"><button>💌 Open Love Letter</button></a>
 
 </body>
 </html>
 """
 
-# ================= LETTER PAGE =================
 LETTER = """
 <!DOCTYPE html>
 <html>
@@ -56,8 +53,20 @@ body {
     background: linear-gradient(135deg, #ff9fcf, #ffd1e6);
     text-align: center;
     color: #5a0c2c;
+    overflow-x: hidden;
 }
 .hidden { display: none; }
+
+#banner {
+    font-size: 42px;
+    margin: 20px;
+    color: #b0004d;
+    animation: glow 1.5s infinite alternate;
+}
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff4f9a; }
+    to { text-shadow: 0 0 30px #ff2f92; }
+}
 
 .card {
     background: rgba(255,255,255,0.75);
@@ -95,6 +104,40 @@ button {
 @keyframes fall {
     to { transform: translateY(100vh) rotate(360deg); }
 }
+
+/* Fireworks */
+.firework {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: explode 1s linear;
+}
+@keyframes explode {
+    to { transform: scale(25); opacity: 0; }
+}
+
+/* Balloons */
+.balloon {
+    position: fixed;
+    bottom: -100px;
+    font-size: 40px;
+    animation: floatUp 6s linear infinite;
+}
+@keyframes floatUp {
+    to { transform: translateY(-120vh); }
+}
+
+/* Cake */
+#cake {
+    font-size: 80px;
+    cursor: pointer;
+    animation: bounce 1s infinite;
+}
+@keyframes bounce {
+    50% { transform: scale(1.1); }
+}
 </style>
 </head>
 
@@ -104,12 +147,13 @@ button {
 
 <div id="content" class="hidden">
 
+<h1 id="banner">🎉 Happy Birthday Moteee 💖🎂</h1>
+
 <audio id="music" loop>
 <source src="/static/song.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
-<h1>🎂 Happy Birthday Laatu 🎂</h1>
 <p>
 You make everything easy for me, thank you for being my best friend,<br>
 my best guider and my soulmate ❤️<br>
@@ -119,6 +163,9 @@ Thank you for everything, I Love You So Much 🥺❤️
 </p>
 </div>
 
+<h2>🎂 Cut the Cake</h2>
+<div id="cake" onclick="cutCake()">🎂</div>
+
 <h2>📸 Our Memories</h2>
 <div class="gallery">
 <img src="/static/photo1.jpg">
@@ -127,7 +174,7 @@ Thank you for everything, I Love You So Much 🥺❤️
 </div>
 
 <h2>🎮 Mini Game 😍</h2>
-<p>Will you marry me Babby...? 💖</p>
+<p>Do you love me forever? 💖</p>
 
 <button id="yesBtn" onclick="yesClicked()">YES 💕</button>
 <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
@@ -143,10 +190,12 @@ const timer = setInterval(() => {
     document.getElementById("count").innerText = countdown;
     if (countdown === 0) {
         clearInterval(timer);
-        document.getElementById("timer").innerText = "💖 Surprise Unlocked 💖";
+        document.getElementById("timer").classList.add("hidden");
         document.getElementById("content").classList.remove("hidden");
         document.getElementById("music").play();
-        alert("🎉 Happy Birthday Moteee 💖");
+        launchConfetti();
+        launchFireworks();
+        launchBalloons();
     }
 }, 1000);
 
@@ -167,11 +216,16 @@ function yesClicked() {
         navigator.vibrate([200,100,200]);
     }
     launchConfetti();
-    alert("💖 MUjhe tho pta hi tha ! I love you forever Duggu 💖");
 }
 
+function cutCake() {
+    document.getElementById("cake").innerText = "🍰";
+    launchConfetti();
+}
+
+/* Effects */
 function launchConfetti() {
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 120; i++) {
         const c = document.createElement("div");
         c.className = "confetti";
         c.style.left = Math.random()*window.innerWidth + "px";
@@ -180,6 +234,28 @@ function launchConfetti() {
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 5000);
     }
+}
+
+function launchFireworks() {
+    setInterval(() => {
+        const f = document.createElement("div");
+        f.className = "firework";
+        f.style.left = Math.random()*window.innerWidth + "px";
+        f.style.top = Math.random()*window.innerHeight + "px";
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 1000);
+    }, 400);
+}
+
+function launchBalloons() {
+    setInterval(() => {
+        const b = document.createElement("div");
+        b.className = "balloon";
+        b.innerText = "🎈";
+        b.style.left = Math.random()*window.innerWidth + "px";
+        document.body.appendChild(b);
+        setTimeout(() => b.remove(), 6000);
+    }, 800);
 }
 </script>
 
