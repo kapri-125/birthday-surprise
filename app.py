@@ -26,13 +26,22 @@ button{
 .heart{font-size:80px;animation:beat 1s infinite;}
 @keyframes beat{50%{transform:scale(1.3);}}
 
+#timerBox{font-size:26px;margin-top:30px;}
+.hidden{display:none;}
+
+.card{
+    background:rgba(255,255,255,0.9);
+    margin:30px auto;padding:25px;width:85%;
+    border-radius:30px;
+}
+
 /* SLIDESHOW */
 .slideshow{
     width:260px;height:420px;margin:25px auto;
     border-radius:40px;overflow:hidden;position:relative;
 }
 .slideshow img{
-    width:100%;height:100%;object-fit:cover;
+    width:100%;height:100%;object-fit:cover;object-position:center;
     position:absolute;top:0;left:0;opacity:0;
     transition:opacity 1s ease-in-out;
 }
@@ -80,9 +89,15 @@ button{
 
 <h1>🎉 Happy Birthday Duggu 🎉</h1>
 <div class="heart">❤️</div>
-<p>Testing Mode – All features unlocked</p>
+<p>25 December — The most beautiful soul was born 💕</p>
 
-<audio id="bgMusic" loop autoplay>
+<div id="timerBox">
+⏳ Surprise unlocks in <span id="countdown"></span>
+</div>
+
+<div id="content" class="hidden">
+
+<audio id="bgMusic" loop>
   <source src="/static/song.mp3" type="audio/mpeg">
 </audio>
 <audio id="popSound">
@@ -96,7 +111,9 @@ button{
 <p>
 You make everything easy for me, thank you for being my best friend,<br>
 my best guider and my soulmate ❤️<br>
-I am so grateful to have you in my life 💕
+I am so grateful to have you in my life 💕<br>
+Nakh m dum krti h but pyar bhi bhut krti h 💖<br>
+Thank you for everything, I Love You So Much 🥺❤️
 </p>
 </div>
 
@@ -126,80 +143,127 @@ I am so grateful to have you in my life 💕
   <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
 </div>
 
-<div id="loveMessage" class="love-card">
+<div id="loveMessage" class="love-card hidden">
 💖 Mujhe toh pata hi tha 😘<br>
 Tum meri hi ho ❤️<br>
 I Love You Forever 💕
 </div>
 
+</div>
+
 <script>
+/* MIDNIGHT COUNTDOWN */
+const unlockTime = new Date("December 25, 2025 00:00:00").getTime();
+let unlocked=false;
+
+function updateCountdown(){
+  const now=Date.now();
+  const diff=unlockTime-now;
+
+  if(diff<=0 && !unlocked){
+    unlocked=true;
+    document.getElementById("timerBox").style.display="none";
+    document.getElementById("content").classList.remove("hidden");
+    document.getElementById("bgMusic").play();
+    startSlideshow();
+    return;
+  }
+  if(diff>0){
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor((diff%86400000)/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    const s=Math.floor((diff%60000)/1000);
+    document.getElementById("countdown").innerHTML=`${d}d ${h}h ${m}m ${s}s`;
+  }
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
 /* SLIDESHOW */
-let idx=0;
-const slides=document.querySelectorAll(".slideshow img");
-setInterval(()=>{
+let started=false, idx=0;
+function startSlideshow(){
+  if(started) return;
+  started=true;
+  const slides=document.querySelectorAll(".slideshow img");
+  setInterval(()=>{
     slides[idx].classList.remove("active");
     idx=(idx+1)%slides.length;
     slides[idx].classList.add("active");
-},3000);
+  },3000);
+}
 
 /* CAKE */
 function cutCake(){
-    document.getElementById("cake").innerText="🍰";
-    document.getElementById("cakePhoto").style.display="block";
-    firework();
+  document.getElementById("cake").innerText="🍰";
+  document.getElementById("cakePhoto").style.display="block";
+  firework();
 }
 
 /* GAME */
 let noCount=0;
 function moveNo(){
-    noCount++;
-    const b=document.getElementById("noBtn");
-    b.style.position="relative";
-    b.style.left=Math.random()*180-90+"px";
-    b.style.top=Math.random()*120-60+"px";
-    if(noCount>=6){
-        b.innerText="YES 💕";
-        b.onclick=yesClicked;
-        b.onmouseover=null;
-    }
+  noCount++;
+  const b=document.getElementById("noBtn");
+  b.style.position="relative";
+  b.style.left=Math.random()*180-90+"px";
+  b.style.top=Math.random()*120-60+"px";
+  if(noCount>=6){
+    b.innerText="YES 💕";
+    b.onclick=yesClicked;
+    b.onmouseover=null;
+  }
 }
 
 /* YES */
 function yesClicked(){
-    const msg=document.getElementById("loveMessage");
-    msg.classList.add("show");
-    msg.scrollIntoView({behavior:"smooth",block:"center"});
-    firework();
-    launchBalloons();
-    document.getElementById("popSound").play();
-    document.getElementById("balloonSound").play();
-    if(navigator.vibrate){navigator.vibrate([200,100,200]);}
+  const msg=document.getElementById("loveMessage");
+  msg.classList.remove("hidden");
+  setTimeout(()=>msg.classList.add("show"),50);
+  msg.scrollIntoView({behavior:"smooth",block:"center"});
+  firework();
+  launchBalloons();               // 🎈 hearts + DUGGU
+  document.getElementById("popSound").play();
+  document.getElementById("balloonSound").play();
+  if(navigator.vibrate){navigator.vibrate([200,100,200]);}
 }
 
 /* FIREWORK */
 function firework(){
-    for(let i=0;i<8;i++){
-        const f=document.createElement("div");
-        f.className="firework";
-        f.style.left=Math.random()*innerWidth+"px";
-        f.style.top=Math.random()*innerHeight+"px";
-        document.body.appendChild(f);
-        setTimeout(()=>f.remove(),1500);
-    }
+  for(let i=0;i<8;i++){
+    const f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*innerWidth+"px";
+    f.style.top=Math.random()*innerHeight+"px";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1500);
+  }
 }
 
-/* 🎈 BALLOONS */
+/* 🎈 HEART + NAME BALLOONS (FROM MINI-GAME AREA) */
 function launchBalloons(){
-    const game=document.getElementById("gameArea");
-    const r=game.getBoundingClientRect();
-    ["💖","D","U","G","G","U"].forEach((ch,i)=>{
-        const b=document.createElement("div");
-        b.className="balloon";
-        b.innerText=ch;
-        b.style.left=(r.left+(i+1)*r.width/7)+"px";
-        document.body.appendChild(b);
-        setTimeout(()=>b.remove(),7000);
-    });
+  const game=document.getElementById("gameArea");
+  const r=game.getBoundingClientRect();
+
+  // hearts
+  for(let i=0;i<6;i++){
+    const b=document.createElement("div");
+    b.className="balloon";
+    b.innerText="💖";
+    b.style.left=(r.left + Math.random()*r.width)+"px";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),7000);
+  }
+
+  // name balloons: DUGGU
+  ["D","U","G","G","U"].forEach((ch,i)=>{
+    const b=document.createElement("div");
+    b.className="balloon";
+    b.innerText=ch;
+    b.style.fontWeight="bold";
+    b.style.left=(r.left + (i+1)*r.width/6)+"px";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),7000);
+  });
 }
 </script>
 
